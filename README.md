@@ -85,3 +85,6 @@ $ sudo docker run --cap-add=NET_ADMIN -d \
 -d --name torrentserver \
 haugene/transmission-openvpn
 ```
+
+## Test your Torrent server behind a VPN connection
+Go to [ipleak.net](https://ipleak.net/) and under Torrent Address detection copy the magnet link, paste it in your torrentserver and see on the ipleak site if the ipaddress returned from the detection script is the same as the ipaddress that is displayed on the top of the page.
