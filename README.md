@@ -56,3 +56,32 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin 
 
 ## Install the Transmission container with VPN
 from the Github repo [docker-transmission-openvpn](https://github.com/haugene/docker-transmission-openvpn)
+
+in the home/torrent folder, run 
+``` 
+mkdir vpnconfig
+```
+
+Export username and password of NordVPN as environment variables [retrieve from here](https://my.nordaccount.com/nl/dashboard/nordvpn/manual-configuration/)
+```
+export NORDVPNUSER=<username>
+export NORDVPNPASS=<password>
+```
+
+Using NordVPN
+```
+$ sudo docker run --cap-add=NET_ADMIN -d \
+-v /home/torrent/:/data \
+-v /home/torrent/vpnconfig/:/config \
+-e OPENVPN_PROVIDER=NORDVPN \
+-e NORDVPN_COUNTRY=NL \
+-e OPENVPN_USERNAME=$NORDVPNUSER \
+-e OPENVPN_PASSWORD=$NORDVPNPASS \
+-e LOCAL_NETWORK=192.168.1.0/24 \
+--log-driver json-file \
+--log-opt max-size=10m \
+-p 9091:9091 \
+-d --restart unless-stopped \
+-d --name torrentserver \
+haugene/transmission-openvpn
+```
